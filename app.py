@@ -19,6 +19,7 @@ def create_table():
                     )''')
     conn.commit()
     conn.close()
+create_table()
 # Home page - display all students
 @app.route('/')
 def home():
