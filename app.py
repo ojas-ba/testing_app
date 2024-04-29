@@ -56,7 +56,4 @@ def delete_student(id):
     conn.commit()
     conn.close()
     return redirect(url_for('home'))
-
-if __name__ == '__main__':
-    create_table()
-    app.run(debug=True)
+    
