@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="/static/st.css">
+</head>
+<body>
+    <h1>Employee Management</h1>
+    
+    <!-- Display list of employees -->
+    <h2>All Employee</h2>
+    <ul>
+        {% for employee in employees %}
+            <li>ID: {{ employee[0] }}, Name: {{ employee[1] }}, Department: {{ employee[2] }}, Salary: {{ employee[3] }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Add a new employee -->
+    <h2>Add employee</h2>
+    <form action="/add" method="post">
+        Name: <input type="text" name="Name" required><br>
+        Department: <input type="text" name="Department" required><br>
+        Salary: <input type="number" name="Salary" required><br>
+        <input type="submit" value="Add employee">
+    </form>
+
+    <!-- Update a employee -->
+    <h2>Update employee</h2>
+    <form action="/update" method="post">
+        ID: <input type="number" name="id" required><br>
+        Name: <input type="text" name="Name"><br>
+        Department: <input type="text" name="Department"><br>
+        Salary: <input type="number" name="Salary"><br>
+        <input type="submit" value="Update employee">
+    </form>
+
+    <!-- Delete a employee -->
+    <h2>Delete employee</h2>
+    <form action="/delete" method="post">
+        ID: <input type="number" name="id" required><br>
+        <input type="submit" value="Delete employee">
+    </form>
+
+    <!-- Search for employees -->
+    <h2>Search employees</h2>
+    <form action="/search" method="get">
+        Query: <input type="text" name="query"><br>
+        <input type="submit" value="Search">
+    </form>
+
+    <div id="search-results"></div>
+    
+    <!-- Script to handle search results -->
+    <script>
+        document.querySelector('form[action="/search"]').addEventListener('submit', function(event) {
+            event.preventDefault();
+            fetch(`/search?query=${document.querySelector('input[name="query"]').value}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultsDiv = document.getElementById('search-results');
+                    resultsDiv.innerHTML = '';
+                    data.forEach(employee => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `ID: ${employee[0]}, Name: ${employee[1]}, Department: ${employee[2]}, Salary: ${employee[3]}`;
+                        resultsDiv.appendChild(listItem);
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
