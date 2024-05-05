@@ -54,7 +54,6 @@ def search_employees():
 
 
 init_db()
-app.run(port=9001)
 
 
 
